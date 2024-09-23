@@ -1,33 +1,37 @@
 # Segregation-and-analysis-of-multimedia (Cyber Forensic Tool)
-This is a cyber forensic tool build by me and my team during the internship at CID gov of Karnataka we are keeping this open to use and dev 
-
-
-This project is a web-based cyber forensic tool designed to analyze and categorize images extracted from forensic dumps. The tool can process standard forensic dump formats like E01, RAW, and DD, utilizing Scalpel and Foremost for image carving.
-
+This cyber forensic tool was developed by our team during an internship with the CID, Government of Karnataka. 
+It is designed to assist forensic investigators in analyzing and categorizing images extracted from forensic dumps. The tool is open-source and available for further development and use.
+The project is a web-based tool that supports forensic dump formats like E01, RAW, and DD. It utilizes image carving tools such as Scalpel and Foremost to extract images and categorizes them using machine learning models. The tool enables investigators to search for similar faces and create timelines based on metadata to aid in digital investigations.
 ## Features
-
-- **Forensic Dump Support**: Process forensic dumps in E01, RAW, and DD formats.
-- **Image Carving**: Extract images and photos from forensic dumps using Scalpel and Foremost.
-- **Image Categorization**: Classify images into user-defined categories (e.g., narcotics, weapons) using machine learning models.
-- **Search Faces by Image**: You can get all the similar faces from the database that look alike by dragging and dropping a sample photo of the person who you want to look up
-- **Time Line view**: The app is capable of separating images that have metadata and the once that don't have metadata and based on the meta data it divides the images into 3 categories as shown in the fig
+- Forensic Dump Support: Supports processing of forensic dumps in E01, RAW, and DD formats.
+- Image Carving: Extracts images and photos from forensic dumps using Scalpel and Foremost.
+- Image Categorization: Uses machine learning to classify images into user-defined categories, such as narcotics, weapons, and more.
+- Search Faces by Image: Find similar faces in the database by dragging and dropping a sample photo.
+- Timeline View: Separates images based on the availability of metadata and organizes them into categories. The tool plots a traced route of images with location data (latitude and longitude) from specified date ranges.
   
 <img src="images/Timeline.jpg" alt="Time Line" width="400"/>
 
-in the location category the frontend plots the traced route of all the images from a given starting date and ending date of images having Location info in metadata (specifically lat long data),
+In the location category, the tool plots the traced route of all the images between a range of start datetime and end datetime, having Location info in metadata (GPSInfo, specifically).
 
 ## Brief Architecture
 The following image shows the brief architecture of the tool 
 
 <img src="images/smallarch.jpg" alt="Architecture" />
 
-Initially the use has 2 option 
-- To upload supported forensic dump 
-  - The user can also select the type of extractor he needs 
-- To upload images
-  
-Both of these are processed and written into mongodb asynchronously and the front end is updated in realtime using web sockets, the UI is similar to google drives and from there on he will be given a checklist to choose from in order to categorize images as of now we are covering these categories
+### Upload Options:
+- Forensic Dump Upload: Supports various forensic dump formats, with an option to choose the preferred extraction tool.
+- Image Upload: Allows users to directly upload images for analysis.
+- The images uploaded in either manner are processed and written into MongoDB asynchronously and the frontend is updated in realtime using web sockets. 
 
+### Processing and Storage:
+- All data is processed and stored asynchronously in MongoDB.
+- Real-time updates are provided to the frontend using WebSockets.
+
+### UI and Categorization:
+- The UI resembles Google Drive, providing a user-friendly interface for managing and categorizing images.
+- A checklist is provided to select predefined categories for image classification.
+
+## Categories covered: 
 -   Flags
 -   Food
 -   Jewelry
@@ -36,7 +40,7 @@ Both of these are processed and written into mongodb asynchronously and the fron
 -   Money
 -   Faces
 -   Gatherings
--   Hand hold object
+-   Handheld objects
 -   Nudity
 -   Tattoos
 -   Beach
@@ -47,7 +51,7 @@ Both of these are processed and written into mongodb asynchronously and the fron
 -   Drugs
 -   Camera
 -   Smartphones
--   Barcodes and QR code
+-   Barcodes and QR codes
 -   Documents
 -   Handwriting
 -   Invoices
@@ -59,13 +63,12 @@ Both of these are processed and written into mongodb asynchronously and the fron
 -   Fire and Explosion
 -   Weapons
 
-
 ## Project Structure
 
 The project consists of two main folders:
 
-- **`frontend`**: Contains the React application for the user interface. Refer to the `README.md` in the `frontend` folder for setup and usage instructions.
-- **`backend`**: Contains the backend code, which is designed to run on Windows with WSL installed. Refer to the `README.md` in the `backend` folder for setup and usage instructions.
+- **frontend**: Contains the React application for the user interface. Refer to the README.md in the frontend folder for setup and usage instructions.
+- **backend**: Contains the backend code, which is designed to run on Windows with WSL installed. Refer to the README.md in the backend folder for setup and usage instructions.
 
 ## Requirements
 
@@ -90,4 +93,4 @@ The project consists of two main folders:
    ```bash
    cd Segregation-and-analysis-of-multimedia
     ```
-    Execute frontend and backend in 2 different terminals, the execution details of frontend and backend have been mention in the `frontend\README.md` and `backend\README.md` respectively please do follow 
+Start the frontend and backend services in separate terminals as instructed in their respective README.md files (frontend/README.md and backend/README.md).
