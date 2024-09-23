@@ -1,2 +1,2 @@
 # Segregation-and-analysis-of-multimedia
-This is a cyber forensic tool build by me and my team during the internship at CID gov of Karnataka 
+This is a cyber forensic tool built during the internship at CCITR,CID, Government of Karnataka.
