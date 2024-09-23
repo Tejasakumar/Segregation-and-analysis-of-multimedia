@@ -22,8 +22,13 @@ Once you've cloned and navigated to this frontend directory, run:
 npm install
 ```
 before you install this make sure you have the `package.json` file
+This will install the necessary modules 
 
-## Access
+## Access and running the project
+To run the front end run this command 
+```bash
+npm start
+```
 This will start the app and automatically open it in your web browser. You should see the app running at [http://localhost:3000/](http://localhost:3000/)
 
 Rest of the usages is like react for any further questions lookup [Lear more](#learn-more) section of this document 
