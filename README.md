@@ -1,5 +1,5 @@
 # Segregation-and-analysis-of-multimedia (Cyber Forensic Tool)
-This cyber forensic tool was developed by our team during an internship with the CID, Government of Karnataka. 
+This cyber forensic tool was developed by our team during an internship at the Center for Cybercrime Training and Reasarch at CID, Government of Karnataka. 
 It is designed to assist forensic investigators in analyzing and categorizing images extracted from forensic dumps. The tool is open-source and available for further development and use.
 The project is a web-based tool that supports forensic dump formats like E01, RAW, and DD. It utilizes image carving tools such as Scalpel and Foremost to extract images and categorizes them using machine learning models. The tool enables investigators to search for similar faces and create timelines based on metadata to aid in digital investigations.
 ## Features
