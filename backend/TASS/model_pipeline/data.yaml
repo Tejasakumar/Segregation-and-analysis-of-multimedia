@@ -1,0 +1,39 @@
+wsl:
+  wsl_pass: pass
+
+ollama:
+  port: 7564
+
+models:
+  Flags:
+  Food:
+  Jewelry: 
+  Maps: 
+  Credit cards: models_checkpoints/creditcard.pt
+  Money: models_checkpoints/money.pt
+  Faces: 
+  Gatherings: 
+  Hand hold object: 
+  Nudity: 
+  Tattoos: models_checkpoints/tattoo.pt
+  Beach: 
+  Hotel rooms: 
+  Pool: 
+  Restaurant: 
+  Cigarettes: models_checkpoints/cigarette.pt
+  Drugs: models_checkpoints/drugs.pt
+  Camera: 
+  Smartphones: 
+  Barcodes and QR codes: models_checkpoints/bar_qr.pt
+  Documents: 
+  Handwriting: 
+  Invoices: 
+  Photo IDs: 
+  Screenshots: 
+  Cars: models_checkpoints/yolov8l.pt
+  License plates: 
+  Motorcycles: models_checkpoints/yolov8l.pt
+  Vehicle dashboards: 
+  Fire and Explosion: models_checkpoints/fire_explosion.pt
+  Weapons: 
+  
