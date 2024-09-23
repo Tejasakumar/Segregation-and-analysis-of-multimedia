@@ -14,6 +14,7 @@ This project is a web-based cyber forensic tool designed to analyze and categori
   
 <img src="images/Timeline.jpg" alt="Time Line" width="400"/>
 
+in the location category the frontend plots the traced route of all the images from a given starting date and ending date of images having Location info in metadata (specifically lat long data),
 ## Project Structure
 
 The project consists of two main folders:
@@ -26,17 +27,22 @@ The project consists of two main folders:
 ### Backend
 
 - Windows OS with WSL installed
-- Python 3.x
+- Python 3.9.13
 - Required Python packages (listed in `requirements.txt`)
 
 ### Frontend
 
-- Node.js (version x.x.x)
-- npm (version x.x.x)
+- Node.js v16.17.0
+- npm 8.15.0
 
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone <repository_url>
-   cd <repository_name>
+   git clone https://github.com/Tejasakumar/Segregation-and-analysis-of-multimedia.git
+   ```
+2. Navigate into the directory:
+   ```bash
+   cd Segregation-and-analysis-of-multimedia
+    ```
+    Execute frontend and backend in 2 different terminals, the execution details of frontend and backend have been mention in the `frontend\README.md` and `backend\README.md` respectively please do follow 
