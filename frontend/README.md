@@ -26,7 +26,7 @@ before you install this make sure you have the `package.json` file
 ## Access
 This will start the app and automatically open it in your web browser. You should see the app running at [http://localhost:3000/](http://localhost:3000/)
 
-rest of the usages is like react for any further questions lookup -[Lear more](#learn-more)
+Rest of the usages is like react for any further questions lookup [Lear more](#learn-more) section of this document 
 
 ## Learn More
 To learn more about React and Create React App, check out these resources:
