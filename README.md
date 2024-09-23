@@ -15,6 +15,51 @@ This project is a web-based cyber forensic tool designed to analyze and categori
 <img src="images/Timeline.jpg" alt="Time Line" width="400"/>
 
 in the location category the frontend plots the traced route of all the images from a given starting date and ending date of images having Location info in metadata (specifically lat long data),
+
+## Brief Architecture
+The following image shows the brief architecture of the tool 
+
+<img src="images/smallarch.jpg" alt="Architecture" />
+
+Initially the use has 2 option 
+- To upload supported forensic dump 
+  - The user can also select the type of extractor he needs 
+- To upload images
+  
+Both of these are processed and written into mongodb asynchronously and the front end is updated in realtime using web sockets, the UI is similar to google drives and from there on he will be given a checklist to choose from in order to categorize images as of now we are covering these categories
+
+-   Flags
+-   Food
+-   Jewelry
+-   Maps
+-   Credit cards
+-   Money
+-   Faces
+-   Gatherings
+-   Hand hold object
+-   Nudity
+-   Tattoos
+-   Beach
+-   Hotel rooms
+-   Pool
+-   Restaurant
+-   Cigarettes
+-   Drugs
+-   Camera
+-   Smartphones
+-   Barcodes and QR code
+-   Documents
+-   Handwriting
+-   Invoices
+-   Photo IDs
+-   Cars
+-   License plates
+-   Motorcycles
+-   Vehicle dashboards
+-   Fire and Explosion
+-   Weapons
+
+
 ## Project Structure
 
 The project consists of two main folders:
