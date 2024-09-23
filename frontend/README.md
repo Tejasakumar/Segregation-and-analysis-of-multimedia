@@ -11,13 +11,14 @@ Before you begin, make sure you have the following installed on your computer:
   To check if you have Node.js installed, run the following command in your terminal:
   ```bash
   node -v
+  ```
 You should see a version number. If not, install Node.js from the link above.
 
 ## Setting up the project
 
 Once you've cloned and navigated to this frontend directory, run:
 
-```bash
-npm install
-
+    ```bash
+    npm install
+    ```
 before you install this make sure you have the `package.json` file
