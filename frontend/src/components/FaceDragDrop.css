@@ -1,0 +1,45 @@
+.side-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30%;
+    background-color: #FCF8F3;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.submit-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.submit-button:disabled {
+    background-color: #94c8f7;
+    cursor: not-allowed;
+}
+
+/* You might need to adjust the FileUploader styles */
+.file-uploader {
+    width: 100%;
+    max-width: 250px;
+}
