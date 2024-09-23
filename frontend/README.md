@@ -18,7 +18,7 @@ You should see a version number. If not, install Node.js from the link above.
 
 Once you've cloned and navigated to this frontend directory, run:
 
-    ```bash
-    npm install
-    ```
+```bash
+npm install
+```
 before you install this make sure you have the `package.json` file
