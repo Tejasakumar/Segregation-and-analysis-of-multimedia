@@ -23,5 +23,5 @@ npm install
 ```
 before you install this make sure you have the `package.json` file
 
-### Access
+## Access
 This will start the app and automatically open it in your web browser. You should see the app running at [http://localhost:3000/](http://localhost:3000/)
