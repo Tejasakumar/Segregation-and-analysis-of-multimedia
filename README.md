@@ -94,3 +94,13 @@ The project consists of two main folders:
    cd Segregation-and-analysis-of-multimedia
     ```
 Start the frontend and backend services in separate terminals as instructed in their respective README.md files (frontend/README.md and backend/README.md).
+
+
+# Credits
+1. [Roboflow-datasets](https://universe.roboflow.com/)
+2. [Ultralytics-yolov8](https://docs.ultralytics.com/)
+3. [Ollama](https://github.com/ollama/ollama)
+4. [Llava](https://llava-vl.github.io/)
+5. [NudeNet](https://github.com/notAI-tech/NudeNet)
+6. [Dlib](https://pypi.org/project/dlib/)
+7. [face_recognition](https://pypi.org/project/face-recognition/)
