@@ -3,7 +3,7 @@ import asyncio
 
 
 
-MONGO_URI = 'mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0'
+MONGO_URI = 'mongodb://localhost:27017'
 client = AsyncIOMotorClient(MONGO_URI)
 # db = client["Carved_Files"]
 db = client["Temp_Files"]

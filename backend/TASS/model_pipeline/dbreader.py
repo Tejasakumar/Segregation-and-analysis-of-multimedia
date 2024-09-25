@@ -34,7 +34,7 @@ from pymongo import MongoClient
 
 
 class DbReader_Ml:
-    MONGO_URI = 'mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0'
+    MONGO_URI = 'mongodb://localhost:27017'
     client = MongoClient(MONGO_URI)
     db = client["ML_Files"]
 

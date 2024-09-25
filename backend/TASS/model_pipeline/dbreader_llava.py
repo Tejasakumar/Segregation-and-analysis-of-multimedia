@@ -1,7 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 import asyncio
 
-MONGO_URI = 'mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0'
+MONGO_URI = 'mongodb://localhost:27017'
 client = AsyncIOMotorClient(MONGO_URI)
 # db = client["Carved_Files"]
 db = client["Carved_Files"]
@@ -17,7 +17,6 @@ def run(loop):
     # )
         # documents = future.result() 
         # documents = asyncio.run(retrieve_docs())
-        print('chutttt',type(documents))
         return documents.result()
 
 async def retrieve_docs():

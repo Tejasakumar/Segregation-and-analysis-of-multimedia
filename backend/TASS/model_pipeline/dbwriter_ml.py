@@ -2,7 +2,7 @@ import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 
 class DbWriter_ML:
-    __primary_string = "mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0"
+    __primary_string = "mongodb://localhost:27017"
     __client = AsyncIOMotorClient(__primary_string)
     __db = __client["ML_Files"]
     __path = None

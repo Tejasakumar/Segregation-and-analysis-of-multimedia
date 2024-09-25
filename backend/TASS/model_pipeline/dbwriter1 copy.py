@@ -6,7 +6,7 @@ from bson.binary import Binary
 import base64
 
 class DbWriterFromLocalFolder:
-    __primary_string = "mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0"
+    __primary_string = "mongodb://localhost:27017"
     __client = AsyncIOMotorClient(__primary_string)
     __db = __client["tejas_carved_files"]
     __path = None

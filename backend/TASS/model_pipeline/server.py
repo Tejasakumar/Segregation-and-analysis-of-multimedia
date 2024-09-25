@@ -1,140 +1,212 @@
-
-# from flask import Flask, request, jsonify
-# from flask_cors import CORS
-# from flask_socketio import SocketIO, emit
-# from motor.motor_asyncio import AsyncIOMotorClient
-# import asyncio
-# import threading
-# # from pymongo import MongoClient
-# from predictionManager import PredictionManager
-
-# app = Flask(__name__)
-# app.config['SECRET_KEY'] = 'secret!'
-# socketio = SocketIO(app, cors_allowed_origins="*")
-# CORS(app)
-
-# MONGO_URI = 'mongodb://localhost:27017/'
-# client = AsyncIOMotorClient(MONGO_URI)
-# # client = MongoClient(MONGO_URI)
-# db = client["ML_Files"]
-
-# predict_manager = PredictionManager(db)
-
-# # async def fucn(data):
-# #     await asyncio.gather(predict_manager.predict(data))
-# #     print('end of execution')
-    
-# # def func_f1(data):
-# #     asyncio.run(fucn(data))
-
-# @app.route('/predict', methods=['POST'])
-# def prediction():
-#     data = request.json
-#     if predict_manager.check_db():
-#         # Running the prediction in the main event loop
-#         # loop = asyncio.new_event_loop()
-#         # asyncio.set_event_loop(loop)
-#         # loop.run_until_complete(predict_manager.predict(data))
-#         # t1 = threading.Thread(target=predict_manager.predict,args=(data,))
-#         # t1.start()
-#         # t1.join()
-#         predict_manager.predict(data)
-#     else:
-#         return "No Carved_Files detected in Databases", 404
-#     return 'Prediction completed'
-
-
-
-
-# if __name__ == '__main__':
-#     socketio.run(app, port=8009, debug=True)
-#     # app.run(port=8008,debug=True)
-
-
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from flask_socketio import SocketIO, emit
-from motor.motor_asyncio import AsyncIOMotorClient
-import asyncio
-import threading
-# from pymongo import MongoClient
-# from predictionManager import PredictionManager
-import predictionManager
+from flask import request,Flask,jsonify, make_response
+from flask_cors import *
+from flask_socketio import * 
+import E01Processor
+import BinProcessor
+import helpers
+import multiprocessing
+from Blueprints import socketio,socketio_blueprint
+import pymongo
+from bson import json_util
 import yaml
-import multiprocessing as mp
+import asyncio, threading
+import requests
+from detect_face import Face_match
+import json
+
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)
+socketio.init_app(app, cors_allowed_origins="*", async_mode='threading')
+app.register_blueprint(socketio_blueprint)
+MONGO_URI = 'mongodb://localhost:27017'
 
-MONGO_URI = 'mongodb://localhost:27017/'
-client = AsyncIOMotorClient(MONGO_URI)
-# client = MongoClient(MONGO_URI)
-db = client["ML_Files"]
 
-# predict_manager = PredictionManager(db)
 
-# def run_async_task(loop, coro):
-#     asyncio.run_coroutine_threadsafe(coro, loop)
+@app.route("/dump", methods=["GET", "POST"])
+def receive_dump():
+    if request.method == "POST":
+        data = request.get_json()
+        print(list(data["result"].keys()))
+        data = data["result"]
+        # data = {
+        # extractor = Scalpel
+        # files_array = [{name,content,extension},{name,content,extension}]
+        # }
+        if len(data):
+            array = data["files_array"]  # type is a list
+            print(data["extractor"])
+            analyzer = None
+            extension = array[0]["extension"]
+            if extension == "E01":
+                analyzer = E01Processor.E01Processor(array, data["extractor"])
+            else:
+                analyzer = BinProcessor.BinProcessor(array, data["extractor"])
+            print("suksuks")
+            analyzer.setupDump()
+            analyzer.startAnalysis()
+            # run_async_task_gpt(loop, func2())
+            process = multiprocessing.Process(target=helpers.write_into_db)
+            process.start()
 
-# async def func2(data):
-#     await asyncio.gather(predict_manager.predict(data))
+        return jsonify({'status': 'File processed'}), 200
+    return "not Handled request", 400
 
-def dummy(k1,k2,val):
-    print("k1",k1,"k2",k2,"val",val)
-    predictionManager.prediction(k1,k2)
+@app.route("/photos",methods=["POST"])
+def put_photos_to_db():
+    req = request.get_json()
+    jpeg_document = []
+    jpg_document = []
+    png_document = []
+    tiff_document = []
+    big_one = [jpeg_document, jpg_document, png_document, tiff_document]
+    extensions = ["jpeg", "jpg", "png", "tiff"]
+    
+    for i in req["result"]:
+        collection_name = i["name"]
+        extension = collection_name.split(".")[-1]
+        
+        doc = {
+            "file_name": i["name"],
+            "file_content": i["content"]
+        }
+
+        if extension == "jpg":
+            jpg_document.append(doc)
+        elif extension == "png":
+            png_document.append(doc)
+        elif extension == "jpeg":
+            jpeg_document.append(doc)
+        elif extension == "tiff":
+            tiff_document.append(doc)
+
+    process = multiprocessing.Process(target=helpers.forward_to_db, args=(big_one,extensions))
+    process.start()
+    
+    return jsonify({'status': 'photos uploaded'}), 200
+
+@app.route("/fetchphotos", methods=["GET"])
+def get_photos():
+    cli = pymongo.MongoClient(MONGO_URI)
+    db = str(request.args.get("db"))
+    print(db)
+    if db == "Mlgen":
+        db = cli["ML_Files"]
+    elif db =="carved":
+        db = cli['Carved_Files']
+    elif db == "faces":
+        db = cli["Faces"]
+    num_of_photos = int(request.args.get('count'))
+    size = int(request.args.get('size', 18))
+    coll = str(request.args.get("coll"))
+    
+    print("database"+str(db)+"numberof_photos"+str(num_of_photos)+" collection "+str(coll))
+    collection = db[coll]
+    photos = list(collection.find().skip(num_of_photos).limit(size))
+    res = {
+        "photos": photos
+    }
+    cli.close()
+    return json_util.dumps(res)
+
+
 
 @app.route('/predict', methods=['POST'])
 def prediction():
+    val = multiprocessing.Lock()
     data = request.json
     print('json received')
-    global predict_manager
-    val = predictionManager.check_db()
-    print(val)
-    if val!= None:
-        with open('data.yaml', 'r') as file:
-            yaml_data = yaml.safe_load(file)
-        true_keys = [key for key, value in data.items() if value]
-        with mp.Pool(processes=len(true_keys)) as pool:
-            print('enteredddddd'),
-            # print(pool.map(dummy, yaml_data["models"]['Cigarettes']))
-            results = [pool.apply_async(dummy, (key, yaml_data["models"][key],val) ) for key in true_keys]
-            for result in results:
-                result.get()  # Wait for each prediction to complete
-        # p1 = PredictionManager(db)
-        # var = mp.Process(target=dummy)
-        # var.start()
-        # print(var)
-        # run_async_task(loop, func2(data))
+    with open('data.yaml', 'r') as file:
+        yaml_data = yaml.safe_load(file)
+    true_keys = [key for key, value in data.items() if value]  #later change true_keys to keys while doing cookies
+    
+
+    """true_keys = []
+    old_keys = json.loads(request.cookies.get('activated_models',""))
+    if old_keys=="":
+        true_keys=keys
     else:
-        return "No Carved_Files detected in Databases", 404
+        true_keys = [item for item in keys not in old_keys]
+    cookie_resp = json.dumps(true_keys + old_keys)
+    resp = make_response("Setting cookies")
+    resp.set_cookie('activated_models', cookie_resp)"""
+
+
+    if len(true_keys)>0:
+
+        print("in ifffff")
+        db_data = helpers.retrive_moon_docs(loop)
+        pm = multiprocessing.Process(target=helpers.f, args=('Llava', true_keys, db_data, val))
+ 
+        val.acquire()
+        pm.start()
+        pm.join()
+
+        while True:
+            if val.acquire(block=False):
+                val.release()   
+                break
         
-    return 'Prediction completed'
+        print("olllavaaa doneeeeeeeeeeeeeeeeeeeee")
+        col_names = helpers.get_temp_col(loop)
+        print(col_names)
+        print("printtttttttttttttttttt")
+        with multiprocessing.Pool(processes=len(col_names)) as pool:
+            print('enteredddddd')
+            # results = [pool.apply_async(helpers.dummy, (key, yaml_data["models"][key], db_data) ) for key in true_keys]
+            results = []
+            for key in col_names:
+                temp_data = helpers.retrive_docs(key, loop)
+                p = multiprocessing.Process(target=helpers.dummy, args=(key, yaml_data['models'][key], temp_data))
+                results.append(p)
+                p.start()
+            for result in results:
+                result.join()
 
-@socketio.on('connect')
-def handle_connect():
-    print('Client connected')
+        return 'Prediction completed'
+    else: return "The User did not ask for AI Prediction"
 
-@socketio.on("Ready")
-def segregate_images():
-    socketio.start_background_task(target=run_watch)
 
-def run_watch():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(predict_manager.some_async_function())
-    loop.close()
+@app.route("/faces")
+def faces():
+    return "at face",200
 
+@app.route("/test",methods=["POST"])
+def testof():
+    data = request.json
+    fm = Face_match()
+    print(fm.match(data['fileContents']))
+    return fm.match(data['fileContents'])
+
+
+@app.route("/file-summary", methods=['POST'])
+def filesummary():
+    text=""
+    data = request.json
+    image = data['file']
+    prompt = data['prompt']
+    with open('data.yaml', 'r') as file:
+        yaml_data = yaml.safe_load(file)
+    port = yaml_data['ollama']['port']
+    url = f"http://127.0.0.1:{port}/api/generate"
+    data = {
+        "model": "investigator",
+        "prompt": prompt,
+        "images": [image],
+        "stream": False
+    }
+    response = requests.post(url, json=data)
+    if response.status_code == 200:
+        text = response.json().get('response')
+        print(text)
+    return text,200     
 
 def start_background_loop(loop):
     asyncio.set_event_loop(loop)
     loop.run_forever()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     t = threading.Thread(target=start_background_loop, args=(loop,), daemon=True)
     t.start()
-    socketio.run(app, port=8009, debug=True)
-    # app.run(port=8008,debug=True)
-
+    socketio.run(app,debug=True)

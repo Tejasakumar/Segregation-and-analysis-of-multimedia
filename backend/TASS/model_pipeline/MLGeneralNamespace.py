@@ -3,7 +3,7 @@ from flask_socketio import Namespace,emit
 import threading,pymongo
 import helpers 
 class ML_GeneralNamespace(Namespace):
-    MONGO_URI = 'mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0'
+    MONGO_URI = 'mongodb://localhost:27017'
     client = AsyncIOMotorClient(MONGO_URI)
     db = client["ML_Files"]
     t1 = None
