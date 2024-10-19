@@ -64,18 +64,3 @@ def prediction(key, model_path, db_data):
         predict_instance = Predict_Llava()
         predict_instance.predict(model_path, db_data)
         
-# second_list = ['Cigarettes', 'Drugs', 'Barcodes and QR codes', 'Nudity', 'Cars', 'Motorcycles', 'Money', 'Credit cards', 'Fire and Explosion']
-
-# def check_db():
-#     global db_carved
-#     databases = carved_client.list_database_names()
-#     if db_name in databases:
-#         print("putting")
-#         db_carved = carved_client[db_name]
-#         print(db_carved,db_name)
-#         return db_carved
-#     else:
-#         return False
-# def dummy(self):
-#     print("lowda")
-#     return 
