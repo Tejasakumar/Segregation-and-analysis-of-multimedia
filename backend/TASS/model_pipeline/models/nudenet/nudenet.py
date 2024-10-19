@@ -169,13 +169,4 @@ class NudeDetector:
         img_pil.save(buffer, format='JPEG')
         base64_image = base64.b64encode(buffer.getvalue()).decode('utf-8')
         return base64_image
-        # if not output_path:
-        #     image_path, ext = os.path.splitext(image_path)
-        #     output_path = f"{image_path}_censored{ext}"
-
-        # cv2.imwrite(output_path, img)
-
-        # return output_path
-
-
-#
+        
