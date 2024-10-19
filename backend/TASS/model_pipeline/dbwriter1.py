@@ -9,7 +9,6 @@ class DbWriterFromLocalFolder:
     __primary_string = "mongodb://localhost:27017"
     __client = AsyncIOMotorClient(__primary_string)
     __db = __client["Carved_Files"]
-    # __db = __client["tejas_carved_files"]
     __path = None
     __loop = asyncio.new_event_loop()
     
@@ -63,18 +62,8 @@ class DbWriterFromLocalFolder:
         await asyncio.gather(*tasks)
     
 
-
-    # # Example usage:
-    # start = time.time()
-    # loop = asyncio.new_event_loop()
-    # asyncio.set_event_loop(loop)
-    # loop.run_until_complete(get_dirs(start_directory))
-    # print("time taken for execution = ", time.time()-start)
-# start_directory = 'Playground\Output'
-# DbWriter(start_directory).run()
-
 class PushDb:
-    MONGO_URI = 'mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0'
+    MONGO_URI = 'mongodb://localhost:27017/'
     client = AsyncIOMotorClient(MONGO_URI)
     db = client["Carved_Files"]
     big_one = None
