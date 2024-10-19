@@ -50,7 +50,3 @@ class Predict_Llava:
 
             else:
                 print(f"Request failed with status code: {response.status_code}")
-            # print(payload['list'][0])
-            # json_payload = json.dumps(payload, default=str)  # Convert payload to JSON string
-            # headers = {'Content-Type': 'application/json'}
-            # response = requests.post(url, headers=headers, data=json_payload)
