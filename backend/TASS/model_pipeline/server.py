@@ -42,7 +42,6 @@ def receive_dump():
                 analyzer = E01Processor.E01Processor(array, data["extractor"])
             else:
                 analyzer = BinProcessor.BinProcessor(array, data["extractor"])
-            print("suksuks")
             analyzer.setupDump()
             analyzer.startAnalysis()
             # run_async_task_gpt(loop, func2())
@@ -134,7 +133,6 @@ def prediction():
 
     if len(true_keys)>0:
 
-        print("in ifffff")
         db_data = helpers.retrive_moon_docs(loop)
         pm = multiprocessing.Process(target=helpers.f, args=('Llava', true_keys, db_data, val))
  
@@ -147,12 +145,9 @@ def prediction():
                 val.release()   
                 break
         
-        print("olllavaaa doneeeeeeeeeeeeeeeeeeeee")
+        print("Llava processing completed!!!")
         col_names = helpers.get_temp_col(loop)
-        print(col_names)
-        print("printtttttttttttttttttt")
         with multiprocessing.Pool(processes=len(col_names)) as pool:
-            print('enteredddddd')
             # results = [pool.apply_async(helpers.dummy, (key, yaml_data["models"][key], db_data) ) for key in true_keys]
             results = []
             for key in col_names:
