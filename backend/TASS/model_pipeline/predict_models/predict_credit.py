@@ -34,12 +34,7 @@ class Predict_Credit:
                     # print(result.boxes)
                     for box in result.boxes:
                         class_id = int(box.cls[0])
-                        print('clsss:  ',box.cls)
-                        # print('class id: ', class_id)
-                        print('conf:    ',box.conf)
                         class_name = result.names[class_id]
-                        # if 'cigarette' in class_name:
-                            # print(class_name, doc['file_name'])
                         document={'file_content': doc['file_content'],
                                     'file_name': doc['file_name']
                         }
