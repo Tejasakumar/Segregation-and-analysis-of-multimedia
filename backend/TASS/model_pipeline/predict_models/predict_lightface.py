@@ -9,15 +9,8 @@ import numpy as np
 
 
 
-# client = MongoClient('mongodb://localhost:27017/')
-# db = client['Carved_Files']
-# db1 = client['ML_Files']
-# collection_name = 'Faces'
-# col1 = db1['Faces']
-
-
 class Predict_LightFace:
-    __primary_string = "mongodb://localhost:27017/?readPreference=primary&replicaSet=rs0"
+    __primary_string = "mongodb://localhost:27017/"
     __client = MongoClient(__primary_string)
     __faces = __client["Faces"]
     def __init__(self) -> None:
